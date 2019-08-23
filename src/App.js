@@ -1,42 +1,33 @@
 import React,{Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import YTSearch from 'youtube-api-search';
+import API_KEY from './private';
+import SearchList from "./component/SearchList";
+import VedioList from './component/VedioList';
+import VideoDetail from './component/VideoDetail';
 
-const API_KEY = 'AIzaSyD5nWB3Kp_iUcuSA4bVi563FR1OgGRtIyQ';
-
+// console.log( API_KEY );
+// const API_KEY = 'AIzaSyA0Ot-u-L4IXyRzS2SibTSznLOZ3ubF7nE';
 class App  extends Component {
 
     constructor(props){
         super(props);
         this.state = {videos : []};
-
+        let that = this;
         YTSearch({
             key: API_KEY,
             term: 'surfboard'
         }, function (data) {
-            this.setState({videos:data});
+            that.setState({videos:data});
         });
     }
 
     render() {
-        
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <p>
-                        Edit <code>src/App.js</code> and save to reload.
-                    </p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-                    </a>
-                </header>
+            <div>
+                <SearchList/>
+                <VideoDetail data={this.state.videos[0]} />
+                <VedioList videos={this.state.videos} />
             </div>
         );
     }
